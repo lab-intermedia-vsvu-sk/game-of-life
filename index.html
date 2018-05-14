@@ -88,6 +88,7 @@
     var stop = document.querySelector('button.stop');
     var reset = document.querySelector('button.reset');
     var random = document.querySelector('button.random');
+    stop.disabled = true;
 
     // var miska = new Miska(miskaElm, 40);
     var vyvoj = new Vyvoj(new Miska(miskaElm, 20));
@@ -100,10 +101,12 @@
 
     start.addEventListener('click', function(){
       vyvoj.oziv();
+      toggleButtons([start, stop, next, reset, random]);
     });
 
     stop.addEventListener('click', function(){
       vyvoj.hybernuj();
+      toggleButtons([start, stop, next, reset, random]);
     });
 
     reset.addEventListener('click', function(){
@@ -113,6 +116,16 @@
     random.addEventListener('click', function(){
       vyvoj.init(true); // random = true
     });
+
+    function toggleButtons(buttons) {
+      for (let i = 0; i < buttons.length; i++) {
+        if (buttons[i].disabled) {
+          buttons[i].disabled = false;
+        } else {
+          buttons[i].disabled = true;
+        }
+      }
+    }
     
   </script>
   
