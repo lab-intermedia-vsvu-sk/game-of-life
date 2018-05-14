@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- model - view - controller -->
+  <script src="labak/bunka.model.js"></script>
+  <script src="labak/petriho-miska.view.js"></script>
+  <script src="labak/vyvoj.controller.js"></script>
+  
+  <style>
+    html, body {
+      padding: 0px;
+      margin: 0px;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    #miska {
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    .bunka {
+      display: inline-block;
+      box-sizing: border-box;
+    }
+    .bunka.stav0 {
+      background-color: black;
+      color: white;
+    }
+    .bunka.stav1 {
+      background-color: white;
+      color: black;
+    }
+    .bunka.stav0.highlight {
+      background-color: red !important;
+    }
+    .bunka.stav1.highlight {
+      background-color: #0f0 !important;
+    }
+    .bunka.stav0.highlight::after {
+      /* background-color: red !important; */
+      content: '0';
+      position: relative;
+      left: 40%;
+      top: 40%;
+    }
+    .bunka.stav1.highlight::after {
+      /* background-color: rgb(0, 255, 0) !important; */
+      content: '1';
+      position: relative;
+      left: 40%;
+      top: 40%;
+    }
+    .buttons {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      z-index: 9999;
+    }
+    .buttons button {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="buttons">
+    <button class="start">START</button>
+    <button class="stop">STOP</button>
+    <button class="next">DALŠÍ</button>
+    <button class="reset">RESET</button>
+    <button class="random">RANDOM</button>
+  </div>
+
+  <div id="miska"></div>
+
+  <div class="bunka stav1"></div>
+
+  <script>
+    // html elementy jako proměnná
+    var miskaElm = document.querySelector('#miska');
+    var next = document.querySelector('button.next');
+    var start = document.querySelector('button.start');
+    var stop = document.querySelector('button.stop');
+    var reset = document.querySelector('button.reset');
+    var random = document.querySelector('button.random');
+
+    var miska = new Miska(miskaElm, 40);
+    var vyvoj = new Vyvoj(miska);
+
+    next.addEventListener('click', function(){
+      vyvoj.pristiGeneracia();
+    });
+
+    start.addEventListener('click', function(){
+      vyvoj.oziv();
+    });
+
+    stop.addEventListener('click', function(){
+      vyvoj.hybernuj();
+    });
+
+    reset.addEventListener('click', function(){
+      vyvoj.init();
+    });
+
+    random.addEventListener('click', function(){
+      vyvoj.init(true);
+    });
+    
+  </script>
+  
+</body>
+</html>
