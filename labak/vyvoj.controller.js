@@ -14,23 +14,22 @@ class Vyvoj {
     }
 
     init(random) {
+        // console.log('-------------- init --------------')
         for (var i = 0; i < this.miska.bunky.length; i++) {
-            var self = this;
             if (random) {
-                self.miska.bunky[i].stav = self.nahodnyStavBunky();
+                this.miska.bunky[i].stav = this.nahodnyStavBunky();
             } else {
-                self.miska.bunky[i].stav = 0; 
+                this.miska.bunky[i].stav = 0; 
             }
-            // self.miska.zobrazBunku(self.miska.bunky[i]);
         }
-        console.log('BUNKY VYTVORENY');
+        // console.log('BUNKY VYTVORENY');
         for (var i = 0; i < this.miska.bunky.length; i++) {
             this.miska.zobrazBunku(this.miska.bunky[i]);
         }
-        console.log('BUNKY ZOBRAZENY');
+        // console.log('BUNKY ZOBRAZENY');
 
         // test hightlight
-        this.highlightSusedov(this.miska.bunky);
+        // this.highlightSusedov(this.miska.bunky);
         
     }
 
@@ -43,27 +42,25 @@ class Vyvoj {
 
     // pristi generace
     pristiGeneracia() {
-        var stavy = [];
-        var bunky = this.miska.bunky;
-        for (var i = 0; i < bunky.length; i++) {
-            var bunka = bunky[i];
-            stavy.push(bunka.zhodnotSituaci());
+        // console.log('-------------- pristiGeneracia --------------');
+        let noveStavy = [];
+        // aktualni stav
+        const bunky = this.miska.bunky;
+        // zhodnot situaci
+        for (let i = 0; i < bunky.length; i++) {
+            const bunka = bunky[i];
+            noveStavy.push(this.miska.bunky[i].zhodnotSvouSituaci());
         }
-        console.log('STAVY ZHODNOCENY');
-        // prekresli bunky a nastav stavy;
-        for (var i = 0; i < bunky.length; i++) {
-            var bunka = bunky[i];
-            bunka.stav = stavy[i];
+        // console.log('STAVY ZHODNOCENY');
+        // prekresli bunky a nastav nove stavy;
+        for (let i = 0; i < bunky.length; i++) {
+            const bunka = bunky[i];
+            if (bunka.stav !== noveStavy[i]) {
+                bunka.zmenStav();
+            }
             this.miska.zobrazBunku(bunka);
         }
-        /* var test = [];
-        for (var i = 0; i < bunky.length; i++) {
-            test.push(bunky[i].stav);
-        } */
-        console.log('BUNKY PREKRESLENY');
-        // test hightlight
-        this.highlightSusedov(bunky);
-
+        // console.log('BUNKY PREKRESLENY');
     }
 
     oziv() {

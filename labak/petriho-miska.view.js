@@ -1,6 +1,6 @@
 class Miska {
 
-    domElement;
+    domElement; mrizka;
 
     rozmer = {
         sirka: undefined,
@@ -9,14 +9,11 @@ class Miska {
 
     bunky = [];
 
-    mrizka;
-
-
     constructor(miskaElement, mrizka){
         this.domElement = miskaElement;
         this.rozmer.sirka = this.domElement.getBoundingClientRect().width;
         this.rozmer.vyska = this.domElement.getBoundingClientRect().height;
-        console.log('MISKA VYTVORENA');
+        // console.log('MISKA VYTVORENA');
         this.naplnMiskuBunkami(mrizka);
     }
 
@@ -24,19 +21,15 @@ class Miska {
         this.mrizka = mrizka;
 
         for (var y = 0; y < this.rozmer.vyska; y = y + mrizka) {
-            // console.log('y', y);
             for (var x = 0; x < this.rozmer.sirka; x = x + mrizka) {
-
                 var bunka = new Bunka();
+                bunka.id = x + y;
                 bunka.x = x;
                 bunka.y = y;
                 this.bunky.push(bunka);
-                // this.zobrazBunku(bunka);
             }
         }
-
-        console.log('MISKA NAPLNĚNA');
-
+        // console.log('MISKA NAPLNĚNA');
         this.ukazBunkamSusedy(this.bunky);
     }
 
@@ -58,7 +51,7 @@ class Miska {
             bunka.domElement = bunkaElm;
             this.domElement.appendChild(bunka.domElement);
 
-            // bunka manual
+            // bunka manual -> kreslení buňek
             bunka.domElement.addEventListener('mouseover', function(e) {
                 if (e.buttons) {
                     bunka.zmenStav();
@@ -70,53 +63,40 @@ class Miska {
     }
 
     ukazBunkamSusedy(bunky) {
+
         var pocetBunekNaRiadok = Math.ceil(this.rozmer.sirka / this.mrizka);
-        console.log('pocetBunekNaRiadok', pocetBunekNaRiadok);
         
         for (var i = 0; i < bunky.length; i++) {
-            var left            = i - 1;
-            var leftTop         = i - pocetBunekNaRiadok - 1;
-            var top             = i - pocetBunekNaRiadok;
-            var rightTop        = i - pocetBunekNaRiadok + 1;
-            var right           = i + 1;
-            var rightBottom     = i + pocetBunekNaRiadok + 1;
-            var bottom          = i + pocetBunekNaRiadok;
-            var leftBottom      = i + pocetBunekNaRiadok - 1;
+            var leftIndex            = i - 1;
+            var leftTopIndex         = i - pocetBunekNaRiadok - 1;
+            var topIndex             = i - pocetBunekNaRiadok;
+            var rightTopIndex        = i - pocetBunekNaRiadok + 1;
+            var rightIndex           = i + 1;
+            var rightBottomIndex     = i + pocetBunekNaRiadok + 1;
+            var bottomIndex          = i + pocetBunekNaRiadok;
+            var leftBottomIndex      = i + pocetBunekNaRiadok - 1;
 
-            left = (left >= 0 ? left : left + bunky.length);
-            leftTop = (leftTop >= 0 ? leftTop : leftTop + bunky.length);
-            top = (top >= 0 ? top : top + bunky.length);
-            rightTop = (rightTop >= 0 ? rightTop : rightTop + bunky.length);
-            right = (right < bunky.length ? right : right - bunky.length);
-            rightBottom = (rightBottom < bunky.length ? rightBottom : rightBottom - bunky.length);
-            bottom = (bottom < bunky.length ? bottom : bottom - bunky.length);
-            leftBottom = (leftBottom < bunky.length ? leftBottom : leftBottom - bunky.length);
-
-            /* left = (left < 0 || left >= bunky.length ? left = undefined : left);
-            leftTop = (leftTop < 0 || leftTop >= bunky.length ? leftTop = undefined : leftTop);
-            top = (top < 0 || top >= bunky.length ? top = undefined : top);
-            rightTop = (rightTop < 0 || rightTop >= bunky.length ? rightTop = undefined : rightTop);
-            right = (right < 0 || right >= bunky.length ? right = undefined : right);
-            rightBottom = (rightBottom < 0 || rightBottom >= bunky.length ? rightBottom = undefined : rightBottom);
-            bottom = (bottom < 0 || bottom >= bunky.length ? bottom = undefined : bottom);
-            leftBottom = (leftBottom < 0 || leftBottom >= bunky.length ? leftBottom = undefined : leftBottom); */
+            // nekonečný prostor (so so => potřeba doladit)
+            leftIndex = (leftIndex >= 0 ? leftIndex : leftIndex + bunky.length);
+            leftTopIndex = (leftTopIndex >= 0 ? leftTopIndex : leftTopIndex + bunky.length);
+            topIndex = (topIndex >= 0 ? topIndex : topIndex + bunky.length);
+            rightTopIndex = (rightTopIndex >= 0 ? rightTopIndex : rightTopIndex + bunky.length);
+            rightIndex = (rightIndex < bunky.length ? rightIndex : rightIndex - bunky.length);
+            rightBottomIndex = (rightBottomIndex < bunky.length ? rightBottomIndex : rightBottomIndex - bunky.length);
+            bottomIndex = (bottomIndex < bunky.length ? bottomIndex : bottomIndex - bunky.length);
+            leftBottomIndex = (leftBottomIndex < bunky.length ? leftBottomIndex : leftBottomIndex - bunky.length);
 
             bunky[i].susedia = [
-                bunky[left],
-                bunky[leftTop],
-                bunky[top],
-                bunky[rightTop],
-                bunky[right],
-                bunky[rightBottom],
-                bunky[bottom],
-                bunky[leftBottom]
+                bunky[leftIndex],
+                bunky[leftTopIndex],
+                bunky[topIndex],
+                bunky[rightTopIndex],
+                bunky[rightIndex],
+                bunky[rightBottomIndex],
+                bunky[bottomIndex],
+                bunky[leftBottomIndex]
             ];
         }
-
-        console.log('SOUSEDÉ DEFINOVÁNI');
-    }
-
-    nahodnyStavBunky() {
-        return Math.floor(Math.random() * 2);
+        // console.log('SOUSEDÉ DEFINOVÁNI');
     }
 }

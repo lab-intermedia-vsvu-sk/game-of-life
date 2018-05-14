@@ -89,9 +89,11 @@
     var reset = document.querySelector('button.reset');
     var random = document.querySelector('button.random');
 
-    var miska = new Miska(miskaElm, 40);
-    var vyvoj = new Vyvoj(miska);
+    // var miska = new Miska(miskaElm, 40);
+    var vyvoj = new Vyvoj(new Miska(miskaElm, 20));
 
+
+    // listenery pro tlačítka
     next.addEventListener('click', function(){
       vyvoj.pristiGeneracia();
     });
@@ -105,11 +107,11 @@
     });
 
     reset.addEventListener('click', function(){
-      vyvoj.init();
+      vyvoj.init(); // miska plná mrtvých buněk
     });
 
     random.addEventListener('click', function(){
-      vyvoj.init(true);
+      vyvoj.init(true); // random = true
     });
     
   </script>

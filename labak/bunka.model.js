@@ -1,29 +1,26 @@
 class Bunka {
     // vlastnost třídy
-    stav;
-    x;
-    y;
+    id; stav; x; y; stari;
     // htmlElement
     domElement;
     // súsedia
     susedia;
     // konstruktor
-    constructor(){}
+    constructor(){
+        this.stari = 0; // stáří buňky
+    }
     // metody třídy
-    zhodnotSituaci() { // [0, 1, 1, 0, 0, 1, 1, 0]
-        var ziviSusedia = 0;
-        // console.log('zhodnotSituaci susedia', this.susedia);
-        console.log('pocet susedov', this.susedia.length);
-        if (this.susedia && this.susedia.length > 0) {
-            for (var i = 0; i < this.susedia.length; i++) {
-                if (this.susedia[i] && this.susedia[i].stav === 1) {
+    zhodnotSvouSituaci() { // [0, 1, 1, 0, 0, 1, 1, 0]
+        let ziviSusedia = 0;
+        const susedia = this.susedia;
+
+        if (susedia && susedia.length > 0) {
+            // console.log('susedia length', susedia.length);
+            for (let i = 0; i < susedia.length; i++) {
+                if (susedia[i].stav) {
                     ziviSusedia++;
-                } else {
-                    // do nothing
-                    // console.warn('mrtvý soused?', this.susedia[i]);
                 }
             }
-            // console.log('ziviSusedia', ziviSusedia);
             return this.rozhodnuti(ziviSusedia);
         } else {
             console.warn('SUSEDIA NEJSU :(', this);
@@ -32,7 +29,7 @@ class Bunka {
 
     
 
-    // privátní
+    // ROZHODNUTI, CO SE SVÝM ŽIVOTEM
     rozhodnuti(pocetZivychSusedov) {
         /* 
         1. Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
@@ -42,24 +39,21 @@ class Bunka {
         */
        if (this.stav === 1) { // jsem živá
         if (pocetZivychSusedov < 2) {
-            // this.stav = 0;
-            this.zmenStav();
+            return 0;
         }
         else if (pocetZivychSusedov === 2 || pocetZivychSusedov === 3) {
-            // this.stav = 1;
+            return 1;
         }
         else if (pocetZivychSusedov > 3) {
-            // this.stav = 0;
-            this.zmenStav();
+            return 0;
         } 
        } else { // jsem mrtvá
         if (pocetZivychSusedov === 3) {
-            // this.stav = 1;
-            this.zmenStav();
-        } 
+            return 1;
+        } else {
+            return this.stav; // vrať současný stav, beze změny
+        }
        }
-
-       return this.stav;
     }
 
     zmenStav() {
@@ -68,6 +62,7 @@ class Bunka {
         } else {
             this.stav = 1;
         }
+        this.stari++;
     }
     
 }
