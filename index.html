@@ -55,20 +55,20 @@
       left: 40%;
       top: 40%;
     }
-    .buttons {
+    .controls {
       position: absolute;
       left: 20px;
       top: 20px;
       z-index: 9999;
     }
-    .buttons button {
+    .controls button {
       margin: 5px;
     }
   </style>
 </head>
 <body>
 
-  <div class="buttons">
+  <div class="controls">
     <button class="start">START</button>
     <button class="stop">STOP</button>
     <button class="next">DALŠÍ</button>
@@ -78,10 +78,8 @@
 
   <div id="miska"></div>
 
-  <div class="bunka stav1"></div>
-
   <script>
-    // html elementy jako proměnná
+    // tlačítka DOM
     var miskaElm = document.querySelector('#miska');
     var next = document.querySelector('button.next');
     var start = document.querySelector('button.start');
@@ -90,9 +88,8 @@
     var random = document.querySelector('button.random');
     stop.disabled = true;
 
-    // var miska = new Miska(miskaElm, 40);
+    // vyvoj v misce
     var vyvoj = new Vyvoj(new Miska(miskaElm, 20));
-
 
     // listenery pro tlačítka
     next.addEventListener('click', function(){
