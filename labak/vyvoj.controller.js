@@ -1,8 +1,6 @@
-class Vyvoj {
+"use strict";
 
-    miska;
-    sucasnaGeneracia;
-    hibernacia;
+class Vyvoj {
 
     constructor(miska){
         this.miska = miska;

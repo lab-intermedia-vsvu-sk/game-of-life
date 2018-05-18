@@ -1,12 +1,13 @@
+"use strict";
+
 class Bunka {
-    // vlastnost třídy
-    id; stav; x; y; stari;
-    // htmlElement
-    domElement;
-    // súsedia
-    susedia;
     // konstruktor
-    constructor(){
+    constructor(/* TODO: stavy */){
+        this.id;
+        this.domElement;
+        this.stav;
+        this.x;
+        this.y;
         this.stari = 0; // stáří buňky
     }
     // metody třídy
@@ -22,13 +23,11 @@ class Bunka {
                 }
             }
             return this.rozhodnuti(ziviSusedia);
-        } else {
-            console.warn('SUSEDIA NEJSU :(', this);
-        }
+        } 
     }
 
     
-
+    // TODO: init bunka s pravidly
     // ROZHODNUTI, CO SE SVÝM ŽIVOTEM
     rozhodnuti(pocetZivychSusedov) {
         /* 

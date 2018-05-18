@@ -1,25 +1,44 @@
+"use strict";
+
 class Miska {
 
-    domElement; mrizka;
-
-    rozmer = {
-        sirka: undefined,
-        vyska: undefined
-    };
-
-    bunky = [];
-
     constructor(miskaElement, mrizka){
+        this.bunky = [];
+        this.rozmer = {
+            sirka: undefined,
+            vyska: undefined
+        }
+        this.mrizka = mrizka;
         this.domElement = miskaElement;
         this.rozmer.sirka = this.domElement.getBoundingClientRect().width;
         this.rozmer.vyska = this.domElement.getBoundingClientRect().height;
         // console.log('MISKA VYTVORENA');
         this.naplnMiskuBunkami(mrizka);
+
+        // mobile
+        this.domElement.addEventListener('touchmove', function(e) {
+            console.log('touchmove', e);
+            // TODO
+            // --> document.elementFromPoint(event.clientX, event.clientY);
+            // console.log(e.targetTouches);
+            /* let bunka = e.srcElement.bunka;
+            bunka.zmenStav();
+            bunka.domElement.className = 'bunka'; // reset class
+            bunka.domElement.classList.add('stav' + bunka.stav); */
+        }, true);
+
+        // desktop
+        this.domElement.addEventListener('mouseover', function(e) {
+            if (e.buttons) {
+                let bunka = e.srcElement.bunka;
+                bunka.zmenStav();
+                bunka.domElement.className = 'bunka'; // reset class
+                bunka.domElement.classList.add('stav' + bunka.stav);
+            }
+        });
     }
 
     naplnMiskuBunkami(mrizka) {
-        this.mrizka = mrizka;
-
         for (var y = 0; y < this.rozmer.vyska; y = y + mrizka) {
             for (var x = 0; x < this.rozmer.sirka; x = x + mrizka) {
                 var bunka = new Bunka();
@@ -42,6 +61,7 @@ class Miska {
         } else {
             var bunkaElm = document.createElement('div');
             bunkaElm.className = 'bunka';
+            bunkaElm.id = 'b' + bunka.id;
             bunkaElm.classList.add('stav' + bunka.stav);
             bunkaElm.style.width = this.mrizka + 'px';
             bunkaElm.style.height = this.mrizka + 'px';
@@ -49,16 +69,17 @@ class Miska {
             bunkaElm.style.left = bunka.x + 'px';
             bunkaElm.style.top = bunka.y + 'px';
             bunka.domElement = bunkaElm;
+            bunka.domElement.bunka = bunka;
             this.domElement.appendChild(bunka.domElement);
 
             // bunka manual -> kreslení buňek
-            bunka.domElement.addEventListener('mouseover', function(e) {
+            /* bunka.domElement.addEventListener('mouseover', function(e) {
                 if (e.buttons) {
                     bunka.zmenStav();
                     bunka.domElement.className = 'bunka'; // reset class
                     bunka.domElement.classList.add('stav' + bunka.stav);
                 }
-            });
+            }); */
         }
     }
 
