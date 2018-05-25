@@ -5,38 +5,44 @@ import Bunka from './bunka.model.js';
 class Miska {
 
     constructor(miskaElement, mrizka){
-        this.bunky = [];
-        this.rozmer = {
+        const self = this;
+        self.bunky = [];
+        self.rozmer = {
             sirka: undefined,
             vyska: undefined
         }
-        this.mrizka = mrizka;
-        this.domElement = miskaElement;
-        this.rozmer.sirka = this.domElement.getBoundingClientRect().width;
-        this.rozmer.vyska = this.domElement.getBoundingClientRect().height;
+        self.mrizka = mrizka;
+        self.domElement = miskaElement;
+        self.rozmer.sirka = self.domElement.getBoundingClientRect().width;
+        self.rozmer.vyska = self.domElement.getBoundingClientRect().height;
         // console.log('MISKA VYTVORENA');
-        this.naplnMiskuBunkami(mrizka);
+        self.naplnMiskuBunkami(mrizka);
 
+        /////////////////////////////////////////////
+        // kreslení / změna stavu buněk uživatelem
+        /////////////////////////////////////////////
         // mobile
-        this.domElement.addEventListener('touchmove', function(event) {
+        self.domElement.addEventListener('touchmove', function(event) {
             const clientX = event.touches[0].clientX;
             const clientY = event.touches[0].clientY;
             const bunkaElement = document.elementFromPoint(clientX, clientY);
             const bunka = bunkaElement.bunka;
             // process
-            bunka.zmenStav();
-            bunka.domElement.className = 'bunka'; // reset class
-            bunka.domElement.classList.add('stav' + bunka.stav);
+            bunka.zmenStav(function(stav){
+                self.zobrazBunku(bunka);
+            });
             // todo: smooth
         }, true);
 
+        /////////////////////////////////////////////
         // desktop
-        this.domElement.addEventListener('mouseover', function(e) {
+        self.domElement.addEventListener('mouseover', function(e) {
             if (e.buttons) {
                 let bunka = e.srcElement.bunka;
-                bunka.zmenStav();
-                bunka.domElement.className = 'bunka'; // reset class
-                bunka.domElement.classList.add('stav' + bunka.stav);
+                // process
+                bunka.zmenStav(function(stav){
+                    self.zobrazBunku(bunka);
+                });
             }
         });
     }
@@ -74,15 +80,6 @@ class Miska {
             bunka.domElement = bunkaElm;
             bunka.domElement.bunka = bunka;
             this.domElement.appendChild(bunka.domElement);
-
-            // bunka manual -> kreslení buňek
-            /* bunka.domElement.addEventListener('mouseover', function(e) {
-                if (e.buttons) {
-                    bunka.zmenStav();
-                    bunka.domElement.className = 'bunka'; // reset class
-                    bunka.domElement.classList.add('stav' + bunka.stav);
-                }
-            }); */
         }
     }
 
@@ -101,14 +98,14 @@ class Miska {
             var leftBottomIndex      = i + pocetBunekNaRiadok - 1;
 
             // nekonečný prostor (so so => potřeba doladit)
-            leftIndex = (leftIndex >= 0 ? leftIndex : leftIndex + bunky.length);
-            leftTopIndex = (leftTopIndex >= 0 ? leftTopIndex : leftTopIndex + bunky.length);
-            topIndex = (topIndex >= 0 ? topIndex : topIndex + bunky.length);
-            rightTopIndex = (rightTopIndex >= 0 ? rightTopIndex : rightTopIndex + bunky.length);
-            rightIndex = (rightIndex < bunky.length ? rightIndex : rightIndex - bunky.length);
-            rightBottomIndex = (rightBottomIndex < bunky.length ? rightBottomIndex : rightBottomIndex - bunky.length);
-            bottomIndex = (bottomIndex < bunky.length ? bottomIndex : bottomIndex - bunky.length);
-            leftBottomIndex = (leftBottomIndex < bunky.length ? leftBottomIndex : leftBottomIndex - bunky.length);
+            leftIndex               = (leftIndex >= 0 ? leftIndex : leftIndex + bunky.length);
+            leftTopIndex            = (leftTopIndex >= 0 ? leftTopIndex : leftTopIndex + bunky.length);
+            topIndex                = (topIndex >= 0 ? topIndex : topIndex + bunky.length);
+            rightTopIndex           = (rightTopIndex >= 0 ? rightTopIndex : rightTopIndex + bunky.length);
+            rightIndex              = (rightIndex < bunky.length ? rightIndex : rightIndex - bunky.length);
+            rightBottomIndex        = (rightBottomIndex < bunky.length ? rightBottomIndex : rightBottomIndex - bunky.length);
+            bottomIndex             = (bottomIndex < bunky.length ? bottomIndex : bottomIndex - bunky.length);
+            leftBottomIndex         = (leftBottomIndex < bunky.length ? leftBottomIndex : leftBottomIndex - bunky.length);
 
             bunky[i].susedia = [
                 bunky[leftIndex],

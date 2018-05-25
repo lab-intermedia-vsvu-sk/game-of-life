@@ -55,13 +55,14 @@ class Bunka {
        }
     }
 
-    zmenStav() {
+    zmenStav(callback) {
         if (this.stav === 1) {
             this.stav = 0;
         } else {
             this.stav = 1;
         }
         this.stari++;
+        (callback ? callback(this.stav) : null);
     }
     
 }
