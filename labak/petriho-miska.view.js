@@ -1,25 +1,53 @@
+"use strict";
+
+import Bunka from './bunka.model.js';
+
 class Miska {
 
-    domElement; mrizka;
-
-    rozmer = {
-        sirka: undefined,
-        vyska: undefined
-    };
-
-    bunky = [];
-
     constructor(miskaElement, mrizka){
-        this.domElement = miskaElement;
-        this.rozmer.sirka = this.domElement.getBoundingClientRect().width;
-        this.rozmer.vyska = this.domElement.getBoundingClientRect().height;
+        const self = this;
+        self.bunky = [];
+        self.rozmer = {
+            sirka: undefined,
+            vyska: undefined
+        }
+        self.mrizka = mrizka;
+        self.domElement = miskaElement;
+        self.rozmer.sirka = self.domElement.getBoundingClientRect().width;
+        self.rozmer.vyska = self.domElement.getBoundingClientRect().height;
         // console.log('MISKA VYTVORENA');
-        this.naplnMiskuBunkami(mrizka);
+        self.naplnMiskuBunkami(mrizka);
+
+        /////////////////////////////////////////////
+        // kreslení / změna stavu buněk uživatelem
+        /////////////////////////////////////////////
+        // mobile
+        self.domElement.addEventListener('touchmove', function(event) {
+            const clientX = event.touches[0].clientX;
+            const clientY = event.touches[0].clientY;
+            const bunkaElement = document.elementFromPoint(clientX, clientY);
+            const bunka = bunkaElement.bunka;
+            // process
+            bunka.zmenStav(function(stav){
+                self.zobrazBunku(bunka);
+            });
+            // todo: smooth
+        }, true);
+
+        /////////////////////////////////////////////
+        // desktop
+        self.domElement.addEventListener('mouseover', function(e) {
+            if (e.buttons) {
+                let bunka = e.srcElement.bunka;
+                // process
+                bunka.zmenStav(function(stav){
+                    self.zobrazBunku(bunka);
+                });
+            }
+        });
     }
 
     naplnMiskuBunkami(mrizka) {
-        this.mrizka = mrizka;
-
         for (var y = 0; y < this.rozmer.vyska; y = y + mrizka) {
             for (var x = 0; x < this.rozmer.sirka; x = x + mrizka) {
                 var bunka = new Bunka();
@@ -42,6 +70,7 @@ class Miska {
         } else {
             var bunkaElm = document.createElement('div');
             bunkaElm.className = 'bunka';
+            bunkaElm.id = 'b' + bunka.id;
             bunkaElm.classList.add('stav' + bunka.stav);
             bunkaElm.style.width = this.mrizka + 'px';
             bunkaElm.style.height = this.mrizka + 'px';
@@ -49,16 +78,8 @@ class Miska {
             bunkaElm.style.left = bunka.x + 'px';
             bunkaElm.style.top = bunka.y + 'px';
             bunka.domElement = bunkaElm;
+            bunka.domElement.bunka = bunka;
             this.domElement.appendChild(bunka.domElement);
-
-            // bunka manual -> kreslení buňek
-            bunka.domElement.addEventListener('mouseover', function(e) {
-                if (e.buttons) {
-                    bunka.zmenStav();
-                    bunka.domElement.className = 'bunka'; // reset class
-                    bunka.domElement.classList.add('stav' + bunka.stav);
-                }
-            });
         }
     }
 
@@ -77,14 +98,14 @@ class Miska {
             var leftBottomIndex      = i + pocetBunekNaRiadok - 1;
 
             // nekonečný prostor (so so => potřeba doladit)
-            leftIndex = (leftIndex >= 0 ? leftIndex : leftIndex + bunky.length);
-            leftTopIndex = (leftTopIndex >= 0 ? leftTopIndex : leftTopIndex + bunky.length);
-            topIndex = (topIndex >= 0 ? topIndex : topIndex + bunky.length);
-            rightTopIndex = (rightTopIndex >= 0 ? rightTopIndex : rightTopIndex + bunky.length);
-            rightIndex = (rightIndex < bunky.length ? rightIndex : rightIndex - bunky.length);
-            rightBottomIndex = (rightBottomIndex < bunky.length ? rightBottomIndex : rightBottomIndex - bunky.length);
-            bottomIndex = (bottomIndex < bunky.length ? bottomIndex : bottomIndex - bunky.length);
-            leftBottomIndex = (leftBottomIndex < bunky.length ? leftBottomIndex : leftBottomIndex - bunky.length);
+            leftIndex               = (leftIndex >= 0 ? leftIndex : leftIndex + bunky.length);
+            leftTopIndex            = (leftTopIndex >= 0 ? leftTopIndex : leftTopIndex + bunky.length);
+            topIndex                = (topIndex >= 0 ? topIndex : topIndex + bunky.length);
+            rightTopIndex           = (rightTopIndex >= 0 ? rightTopIndex : rightTopIndex + bunky.length);
+            rightIndex              = (rightIndex < bunky.length ? rightIndex : rightIndex - bunky.length);
+            rightBottomIndex        = (rightBottomIndex < bunky.length ? rightBottomIndex : rightBottomIndex - bunky.length);
+            bottomIndex             = (bottomIndex < bunky.length ? bottomIndex : bottomIndex - bunky.length);
+            leftBottomIndex         = (leftBottomIndex < bunky.length ? leftBottomIndex : leftBottomIndex - bunky.length);
 
             bunky[i].susedia = [
                 bunky[leftIndex],
@@ -100,3 +121,6 @@ class Miska {
         // console.log('SOUSEDÉ DEFINOVÁNI');
     }
 }
+
+// export
+export default Miska;

@@ -1,12 +1,13 @@
+"use strict";
+
 class Bunka {
-    // vlastnost třídy
-    id; stav; x; y; stari;
-    // htmlElement
-    domElement;
-    // súsedia
-    susedia;
     // konstruktor
-    constructor(){
+    constructor(/* TODO: stavy */){
+        this.id;
+        this.domElement;
+        this.stav;
+        this.x;
+        this.y;
         this.stari = 0; // stáří buňky
     }
     // metody třídy
@@ -22,13 +23,11 @@ class Bunka {
                 }
             }
             return this.rozhodnuti(ziviSusedia);
-        } else {
-            console.warn('SUSEDIA NEJSU :(', this);
-        }
+        } 
     }
 
     
-
+    // TODO: init bunka s pravidly
     // ROZHODNUTI, CO SE SVÝM ŽIVOTEM
     rozhodnuti(pocetZivychSusedov) {
         /* 
@@ -41,10 +40,10 @@ class Bunka {
         if (pocetZivychSusedov < 2) {
             return 0;
         }
-        else if (pocetZivychSusedov === 2 || pocetZivychSusedov === 3) {
+        if (pocetZivychSusedov === 2 || pocetZivychSusedov === 3) {
             return 1;
         }
-        else if (pocetZivychSusedov > 3) {
+        if (pocetZivychSusedov > 3) {
             return 0;
         } 
        } else { // jsem mrtvá
@@ -56,13 +55,18 @@ class Bunka {
        }
     }
 
-    zmenStav() {
+    zmenStav(callback) {
         if (this.stav === 1) {
             this.stav = 0;
         } else {
             this.stav = 1;
         }
         this.stari++;
+        // if callback defined, then callback() else null
+        (callback ? callback(this.stav) : null);
     }
     
 }
+
+// export 
+export default Bunka;
