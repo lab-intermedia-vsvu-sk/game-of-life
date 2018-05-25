@@ -7,9 +7,9 @@
   <title>Document</title>
   <script>"use strict";</script>
   <!-- model - view - controller -->
-  <script src="labak/bunka.model.js"></script>
-  <script src="labak/petriho-miska.view.js"></script>
-  <script src="labak/vyvoj.controller.js"></script>
+  <!-- <script src="labak/bunka.model.js"></script> -->
+  <!-- <script src="labak/petriho-miska.view.js"></script> -->
+  <!-- <script src="labak/vyvoj.controller.js"></script> -->
   
   <style>
     html, body {
@@ -82,7 +82,12 @@
 
   <div id="miska"></div>
 
-  <script>
+  <script type="module">
+    // imports
+    import Miska from './labak/petriho-miska.view.js';
+    import Vyvoj from './labak/vyvoj.controller.js';
+
+    ///////////////////////////
     // tlačítka DOM
     var miskaElm = document.querySelector('#miska');
     var next = document.querySelector('button.next');
@@ -91,11 +96,19 @@
     var reset = document.querySelector('button.reset');
     var random = document.querySelector('button.random');
     stop.disabled = true;
+    ///////////////////////////
 
+    ///////////////////////////
     // vyvoj v misce
+    ///////////////////////////
     var vyvoj = new Vyvoj(new Miska(miskaElm, 20));
+    ///////////////////////////
+    ///////////////////////////
 
+
+    ///////////////////////////
     // listenery pro tlačítka
+    ///////////////////////////
     next.addEventListener('click', function(){
       vyvoj.pristiGeneracia();
     });
@@ -117,7 +130,9 @@
     random.addEventListener('click', function(){
       vyvoj.init(true); // random = true
     });
+    ///////////////////////////
 
+    // utils
     function toggleButtons(buttons) {
       for (let i = 0; i < buttons.length; i++) {
         if (buttons[i].disabled) {

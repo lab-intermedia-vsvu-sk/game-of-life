@@ -88,3 +88,6 @@ class Vyvoj {
         }
     }
 }
+
+// export
+export default Vyvoj;

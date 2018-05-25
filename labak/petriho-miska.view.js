@@ -1,5 +1,7 @@
 "use strict";
 
+import Bunka from './bunka.model.js';
+
 class Miska {
 
     constructor(miskaElement, mrizka){
@@ -16,15 +18,16 @@ class Miska {
         this.naplnMiskuBunkami(mrizka);
 
         // mobile
-        this.domElement.addEventListener('touchmove', function(e) {
-            console.log('touchmove', e);
-            // TODO
-            // --> document.elementFromPoint(event.clientX, event.clientY);
-            // console.log(e.targetTouches);
-            /* let bunka = e.srcElement.bunka;
+        this.domElement.addEventListener('touchmove', function(event) {
+            const clientX = event.touches[0].clientX;
+            const clientY = event.touches[0].clientY;
+            const bunkaElement = document.elementFromPoint(clientX, clientY);
+            const bunka = bunkaElement.bunka;
+            // process
             bunka.zmenStav();
             bunka.domElement.className = 'bunka'; // reset class
-            bunka.domElement.classList.add('stav' + bunka.stav); */
+            bunka.domElement.classList.add('stav' + bunka.stav);
+            // todo: smooth
         }, true);
 
         // desktop
@@ -121,3 +124,6 @@ class Miska {
         // console.log('SOUSEDÉ DEFINOVÁNI');
     }
 }
+
+// export
+export default Miska;

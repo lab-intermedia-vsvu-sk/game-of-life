@@ -65,3 +65,6 @@ class Bunka {
     }
     
 }
+
+// export 
+export default Bunka;
