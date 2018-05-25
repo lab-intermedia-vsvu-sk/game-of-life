@@ -57,14 +57,13 @@ html, body {
     margin: 5px;
     border: none;
     border-radius: 0px;
-    background-color: transparent;
-    border: 2px solid white;
+    background-color: rgba(0, 0, 0, .9);
     color: white;
     padding: 5px 8px;
     cursor: pointer;
     font-family: inherit;
-    text-transform: lowercase;
-    font-size: inherit;
+    text-transform: uppercase;
+    font-size: small;
 }
 .controls button:disabled {
     color: gray;
