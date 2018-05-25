@@ -1,0 +1,72 @@
+html, body {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    box-sizing: border-box;
+    background-color: black;
+    overflow: hidden;
+    font-family: 'Source Code Pro', monospace;
+    color: white;
+}
+#miska {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.bunka {
+    display: inline-block;
+    box-sizing: border-box;
+    cursor: grab;
+    cursor: -webkit-grab;
+}
+.bunka.stav0 {
+    background-color: blue;
+    color: white;
+}
+.bunka.stav1 {
+    background-color: aquamarine;
+    color: black;
+}
+.bunka.stav0.highlight {
+    background-color: red !important;
+}
+.bunka.stav1.highlight {
+  background-color: #0f0 !important;
+}
+.bunka.stav0.highlight::after {
+    content: '0';
+    position: relative;
+    left: 40%;
+    top: 40%;
+}
+.bunka.stav1.highlight::after {
+    content: '1';
+    position: relative;
+    left: 40%;
+    top: 40%;
+}
+.controls {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 9999;
+}
+.controls button {
+    margin: 5px;
+    border: none;
+    border-radius: 0px;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: lowercase;
+    font-size: inherit;
+}
+.controls button:disabled {
+    color: gray;
+    cursor: inherit;
+}

@@ -40,10 +40,10 @@ class Bunka {
         if (pocetZivychSusedov < 2) {
             return 0;
         }
-        else if (pocetZivychSusedov === 2 || pocetZivychSusedov === 3) {
+        if (pocetZivychSusedov === 2 || pocetZivychSusedov === 3) {
             return 1;
         }
-        else if (pocetZivychSusedov > 3) {
+        if (pocetZivychSusedov > 3) {
             return 0;
         } 
        } else { // jsem mrtvá
@@ -62,6 +62,7 @@ class Bunka {
             this.stav = 1;
         }
         this.stari++;
+        // if callback defined, then callback() else null
         (callback ? callback(this.stav) : null);
     }
     

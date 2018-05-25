@@ -4,85 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <script>"use strict";</script>
-  <!-- model - view - controller -->
-  <!-- <script src="labak/bunka.model.js"></script> -->
-  <!-- <script src="labak/petriho-miska.view.js"></script> -->
-  <!-- <script src="labak/vyvoj.controller.js"></script> -->
-  
-  <style>
-    html, body {
-      padding: 0px;
-      margin: 0px;
-      width: 100%;
-      height: 100%;
-      max-height: 100vh;
-      box-sizing: border-box;
-      background-color: black;
-      overflow: hidden;
-    }
-    #miska {
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
-    }
-    .bunka {
-      display: inline-block;
-      box-sizing: border-box;
-    }
-    .bunka.stav0 {
-      background-color: black;
-      color: white;
-    }
-    .bunka.stav1 {
-      background-color: white;
-      color: black;
-    }
-    .bunka.stav0.highlight {
-      background-color: red !important;
-    }
-    .bunka.stav1.highlight {
-      background-color: #0f0 !important;
-    }
-    .bunka.stav0.highlight::after {
-      /* background-color: red !important; */
-      content: '0';
-      position: relative;
-      left: 40%;
-      top: 40%;
-    }
-    .bunka.stav1.highlight::after {
-      /* background-color: rgb(0, 255, 0) !important; */
-      content: '1';
-      position: relative;
-      left: 40%;
-      top: 40%;
-    }
-    .controls {
-      position: absolute;
-      left: 20px;
-      top: 20px;
-      z-index: 9999;
-    }
-    .controls button {
-      margin: 5px;
-    }
-  </style>
+  <title>CONWAY'S GAME OF LIFE</title>
+  <link rel="stylesheet" href="main.css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
 </head>
 <body>
-
+  <!-- OVLÁDACÍ TLAČÍTKA -->
   <div class="controls">
-    <button class="start">START</button>
-    <button class="stop">STOP</button>
-    <button class="next">DALŠÍ</button>
-    <button class="reset">RESET</button>
-    <button class="random">RANDOM</button>
+    <div>
+      <span>vývoj:</span>
+      <button class="start">OŽIVIŤ</button>
+      <button class="stop">HIBERNÁCIA</button>
+      <button class="next">GENERÁCIA +</button>
+    </div>
+    <div>
+      <span>miska:</span>
+      <button class="reset">VYČISTIŤ</button>
+      <button class="random">NÁHODNÉ BUNKY</button>
+    </div>
   </div>
+  <!-- END OVLÁDACÍ TLAČÍTKA -->
 
+  <!-- MISKA -->
   <div id="miska"></div>
+  <!-- END MISKA -->
 
   <script type="module">
+    'use strict';
     // imports
     import Miska from './labak/petriho-miska.view.js';
     import Vyvoj from './labak/vyvoj.controller.js';
@@ -101,7 +49,7 @@
     ///////////////////////////
     // vyvoj v misce
     ///////////////////////////
-    var vyvoj = new Vyvoj(new Miska(miskaElm, 20));
+    var vyvoj = new Vyvoj(new Miska(miskaElm, 15));
     ///////////////////////////
     ///////////////////////////
 
